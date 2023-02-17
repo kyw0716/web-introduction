@@ -7,14 +7,28 @@ const radio4 = document.getElementById("radio4");
 const radio5 = document.getElementById("radio5");
 const visitorContainer = document.getElementById("visitorContainer");
 const cancleButton = document.getElementById("cancleButton");
+const visitor = JSON.parse(localStorage.getItem("visitor"));
+
+if (visitor === null) localStorage.setItem("visitor", JSON.stringify([]));
+visitorContainer.innerHTML = `${visitor.map((v) => ` ${v}`)}`;
 
 form.addEventListener("submit", (event) => {
   const currentVisitor = nameInput.value;
   const count = caculateClickedRadioCount();
+  const visitor = JSON.parse(localStorage.getItem("visitor"));
 
   cancleChecked();
 
   alert(`${currentVisitor}님, 저와 ${count}개의 취향이 같으시네요!`);
+
+  if (visitor === null)
+    localStorage.setItem("visitor", JSON.stringify([currentVisitor]));
+  else {
+    visitor.push(currentVisitor);
+    localStorage.setItem("visitor", JSON.stringify(visitor));
+  }
+
+  visitorContainer.innerHTML = `${visitor.map((v) => ` ${v}`)}`;
 
   event.preventDefault();
 });
